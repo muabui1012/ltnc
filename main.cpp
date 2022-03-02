@@ -14,7 +14,7 @@ void initSDL(SDL_Window* &window, SDL_Renderer* &renderer);
 
 
 int main(int argc, char* argv[]){
-    cout << "HELLO";
+    cout << "HGOOOOOO";
 
 
     return 0;
