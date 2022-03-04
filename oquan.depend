@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1646237039 source:d:\oquan\main.cpp
+1646403361 source:d:\oquan\main.cpp
 	<iostream>
 	<SDL.h>
 
