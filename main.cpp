@@ -14,7 +14,21 @@ void initSDL(SDL_Window* &window, SDL_Renderer* &renderer);
 
 
 int main(int argc, char* argv[]){
-    cout << "HGOOOOOO";
+
+
+    //init
+    int table[12];
+    bool quan0 = true, quan6 = true;
+    for (int i = 1; i <= 5; i++){
+        table[i] = 5;
+    }
+    for (int i = 7; i <= 11; i++){
+        table[i] = 5;
+    }
+    int player1 = 0, player2 = 0;
+
+
+
 
 
     return 0;
