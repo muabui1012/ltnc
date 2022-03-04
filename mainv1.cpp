@@ -31,7 +31,7 @@ void show_table(){
         cout << table[i] << " ";
     }
     if (quan6){
-        cout << "X ";
+        cout << "O ";
     }
     cout << endl;
 
