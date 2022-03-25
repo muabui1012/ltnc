@@ -381,6 +381,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1647618228 source:d:\oquan\mainv1.cpp
+1648084866 source:d:\oquan\mainv1.cpp
 	<iostream>
+	"myfunction.hpp"
+
+1648083512 source:d:\oquan\myfunction.cpp
+	<iostream>
+
+1648083747 d:\oquan\myfunction.hpp
 

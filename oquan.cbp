@@ -38,6 +38,8 @@
 		</Compiler>
 		<Unit filename="main.cpp" />
 		<Unit filename="mainv1.cpp" />
+		<Unit filename="myfunction.cpp" />
+		<Unit filename="myfunction.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
