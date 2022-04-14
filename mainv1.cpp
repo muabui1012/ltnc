@@ -4,13 +4,26 @@
 
 using namespace std;
 
+int mode;
+
 int main(int argc, char* argv[]){
 
     init();
     //show_table();
 
+    /* mode = choose_mode();
+
+    if (mode == 1){
+        play_mode_1();
+    }
+    else {
+        play_mode_2();
+    } */
+
     play_mode_1();
-    //cout << get_new_position(3, 1) << endl;
+
+
+
 
     return 0;
 }
