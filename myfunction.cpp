@@ -1,10 +1,11 @@
 // bug ở đoạn ăn quân
-
-
+// hàm kết thúc ván: thua do hết quân hoặc hết quan vơ quân về
+//
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "mySDLfunction.hpp"
 
 using namespace std;
 
@@ -19,9 +20,15 @@ bool game_over = false;
 int player1 = 0, player2 = 0;
 int turn = 1; // (1 , 2)
 int winner = 1; // (1, 2)
-//int mode = 0; // 0: nguoi vs nguoi  || 1: nguoi vs may
+//int mode = 1; // 1: nguoi vs nguoi  || 2: nguoi vs may
 
+void show_menu(){
 
+}
+
+void select_mode(int &mode){
+    cin >> mode;
+}
 
 void init(){
     /*
@@ -41,9 +48,61 @@ void init(){
 
 }
 
-void ket_thuc(){
+int get_next_turn(int turn){
+    if (turn == 1)
+        return 2;
+    return 1;
+}
+
+void end_round(int end_case, int turn){
+    /*
+        end_case:
+        1: bàn trống và ko đủ quân để rải
+        2: hết quan toàn dân vơ về
+
+    */
+
+    if (end_case == 1){
+        int winner = get_next_turn(turn);
+        cout << "Winner: " << winner << endl;
+        return;
+    }
+
+
+
     cout << "Het quan toan dan vo ve: " << endl;
-    cout << "Winner: " << winner << endl;
+    for (int i = 1; i <= 5; i++){
+        player1 += table[i];
+        table[i] = 0;
+    }
+    if (quan0 == 1){
+        player1 += 5;
+    }
+    if (quan6 == 1){
+        player1 += 5;
+    }
+    for (int i = 7; i <= 11; i++){
+        player2 += table[i];
+        table[i] = 0;
+    }
+    if (quan0 == 2){
+        player2 += 5;
+    }
+    if (quan6 == 2){
+        player2 += 5;
+    }
+
+    if (player1 > player2){
+        cout << "Winner: " << 1 << endl;
+    }
+    else if (player1 < player2){
+        cout << "Winner: " << 2 << endl;
+    }
+    else {
+        cout << "Draw" << endl;
+    }
+
+
     game_over = true;
 
     return;
@@ -149,11 +208,13 @@ bool now_empty(int position){
 }
 
 void rai_quan(){
+    if (game_over)
+        return;
     if (turn == 1){
         if (ban_trong(turn)){
             if (player1 < 5){
                 game_over = false;
-                ket_thuc();
+                end_round(1, turn);
             }
         }
         for (int i = 1; i <= 5; i++){
@@ -165,8 +226,7 @@ void rai_quan(){
         if (ban_trong(turn)){
             if (player2 < 5){
                 game_over = false;
-                ket_thuc();
-            }
+                end_round(2, turn);
         }
         for (int i = 7; i <= 11; i++){
             table[i]++;
@@ -175,6 +235,7 @@ void rai_quan(){
     }
 
 
+    }
 }
 
 int get_position(int turn){
@@ -210,11 +271,6 @@ int get_new_position(int position, int direction){
     return position;
 }
 
-int get_next_turn(int turn){
-    if (turn == 1)
-        return 2;
-    return 1;
-}
 
 void di_quan(int position, int so_quan_hien_tai, int direction){
     // đi quân
@@ -238,7 +294,7 @@ void di_quan(int position, int so_quan_hien_tai, int direction){
         system("pause");
     }
 
-    cout << "current position: " << position << " ----------------" << endl;
+
     // ăn quân
     int current_position = position;
     int next_position = get_new_position(current_position, direction);
@@ -303,7 +359,8 @@ void play_mode_1(){
         game_over = check_game_over();
         turn = get_next_turn(turn);
     }
-    ket_thuc();
+
+    end_round(2, turn);
 }
 
 void get_best_choice(int *position, int *direction){
@@ -381,7 +438,7 @@ void play_mode_2(){
 
 
     }
-
+    end_round(2, turn);
 
     return;
 }

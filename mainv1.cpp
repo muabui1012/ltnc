@@ -1,28 +1,25 @@
 // Command version
 #include <iostream>
 #include "myfunction.hpp"
+#include "mySDLfunction.hpp"
+
 
 using namespace std;
 
-int mode;
+int mode = 1;
 
 int main(int argc, char* argv[]){
 
     init();
-    //show_table();
-
-    /* mode = choose_mode();
-
+    show_menu();
+    select_mode(mode);
     if (mode == 1){
         play_mode_1();
+
     }
     else {
-        play_mode_2();
-    } */
-
-    play_mode_1();
-
-
+        play_mode_2;
+    }
 
 
     return 0;

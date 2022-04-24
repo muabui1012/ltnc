@@ -3,7 +3,13 @@
 
 void init();
 
+void show_menu();
+
+void select_mode(int &mode);
+
 void ket_thuc();
+
+void end_round(int end_case);
 
 int choose_mode();
 
@@ -23,7 +29,7 @@ int get_position(int turn);
 
 int get_new_position(int position, int direction);
 
-int get_next_turn();
+int get_next_turn(int turn);
 
 void di_quan();
 
