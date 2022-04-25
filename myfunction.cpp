@@ -27,11 +27,12 @@ void show_menu(){
 }
 
 void select_mode(int &mode){
+    cout << "Select mode: ";
     cin >> mode;
 }
 
 void init(){
-    /*
+
     for (int i = 1; i <= 5; i++){
         table[i] = 5;
     }
@@ -39,10 +40,11 @@ void init(){
         table[i] = 5;
     }
 
-    */
-    quan6 = 1;
+
+    /* quan6 = 1;
     quan0 = 0;
     table[3] = 1;
+    */
 
 
 
@@ -63,6 +65,8 @@ void end_round(int end_case, int turn){
     */
 
     if (end_case == 1){
+        cout << "Player 1: " << player1 << endl;
+        cout << "Player 2: " << player2 << endl;
         int winner = get_next_turn(turn);
         cout << "Winner: " << winner << endl;
         return;
@@ -91,7 +95,8 @@ void end_round(int end_case, int turn){
     if (quan6 == 2){
         player2 += 5;
     }
-
+    cout << "Player 1: " << player1 << endl;
+    cout << "Player 2: " << player2 << endl;
     if (player1 > player2){
         cout << "Winner: " << 1 << endl;
     }
@@ -111,6 +116,7 @@ void end_round(int end_case, int turn){
 
 int choose_mode(){
     int temp;
+    cout << "Select_mode: ";
     cin >> temp;
     return temp;
 
@@ -162,7 +168,6 @@ bool check_game_over(){
 }
 
 bool ban_trong(int turn){
-
 
     // khi 5 ô quân trống thì tự động rải mỗi ô 1 quân
     // nếu số quân < 5 thì thua

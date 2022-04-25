@@ -18,7 +18,7 @@ int main(int argc, char* argv[]){
 
     }
     else {
-        play_mode_2;
+        play_mode_2();
     }
 
 
