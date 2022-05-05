@@ -1,7 +1,10 @@
 #ifndef MYFUNCTION_HPP_INCLUDED
 #define MYFUNCTION_HPP_INCLUDED
+using namespace std;
 
 void init();
+
+void init(int table[12]);
 
 void show_menu();
 
@@ -39,7 +42,9 @@ void play_mode_2();
 
 void get_best_choice(int *position, int *direction);
 
+string int_to_string(int n);
 
+void SDL_test();
 
 #endif // MYFUNCTION_HPP_INCLUDED
 
