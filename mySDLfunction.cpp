@@ -30,6 +30,8 @@ struct cell{
 };
 
 cell cell_pos[12];
+cell cell_down_right_pos[12];
+
 void SDL_Init(){
     load_SDL_and_Images();
 
@@ -46,6 +48,7 @@ void SDL_Init(){
     cell_pos[9].init(500, 300);
     cell_pos[10].init(380, 300);
     cell_pos[11].init(260, 300);
+
 
 
 }
@@ -128,6 +131,20 @@ void SDL_clear_pieces(int i){
     SDL_RenderClear(renderer);
 
 }
+
+int SDL_find_i(int x, int y){
+    int p = -1;
+    for (int i = 1; i <= 5; i++){
+        if ( x >= cell_pos[i].x && y >= cell_pos[i].y && x <= (cell_pos[i].x + 100) && y <= (cell_pos[i].y + 100) )
+            return i;
+    }
+    for (int i = 7; i <= 11; i++){
+        if ( x >= cell_pos[i].x && y >= cell_pos[i].y && x <= (cell_pos[i].x + 100) && y <= (cell_pos[i].y + 100) )
+            return i;
+    }
+    return p;
+}
+
 //**********************************
 // Các hàm chung về khởi tạo và huỷ SDL
 void logSDLError(std::ostream& os,

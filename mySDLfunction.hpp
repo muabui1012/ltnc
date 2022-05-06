@@ -45,4 +45,6 @@ void SDL_draw_pieces(int num, int i);
 
 void SDL_clear_pieces(int i);
 
+int SDL_find_i(int x, int y);
+
 #endif // MYSDLFUNCTION_HPP_INCLUDED

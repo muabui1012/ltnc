@@ -31,6 +31,7 @@ int main(int argc, char* argv[]){
     init();
     SDL_Init();
     play_mode_1();
+    //SDL_test();
 
     return 0;
 }
