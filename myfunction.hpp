@@ -28,9 +28,9 @@ bool now_empty(int position);
 
 void rai_quan();
 
-int get_position(int turn);
+int get_position(int position, int turn);
 
-int get_direction();
+int get_direction(int position, int turn, int center_x, int center_y);
 
 int get_new_position(int position, int direction);
 

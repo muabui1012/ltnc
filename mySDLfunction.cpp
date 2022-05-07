@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 //
     const int SCREEN_WIDTH = 1024;
     const int SCREEN_HEIGHT = 768;
@@ -14,8 +15,9 @@ using namespace std;
 //
 SDL_Window* window = NULL;
 SDL_Renderer* renderer;
-SDL_Texture *table_Img, *pieces_Img, *pieces_1, *pieces_2,
-            *menu_Img, *quan0_Img, *quan6_Img;
+SDL_Texture *table_Img, *pieces_Img,
+            *menu_Img, *quan0_Img, *quan6_Img, *arrow_Img, *clear_arrow_Img,
+            *clear_quan0_Img, *clear_quan6_Img;
 
 SDL_Texture *Img_ar[51];
 
@@ -92,6 +94,11 @@ void load_SDL_and_Images(){
 
     quan0_Img = loadTexture("Image/quan0.png", renderer);
     quan6_Img = loadTexture("Image/quan6.png", renderer);
+    clear_quan0_Img = loadTexture("Image/clear_quan.png", renderer);
+    clear_quan6_Img = loadTexture("Image/clear_quan.png", renderer);
+
+    arrow_Img = loadTexture("Image/direction.png", renderer);
+    clear_arrow_Img = loadTexture("Image/direction_empty.png", renderer);
 
 }
 
@@ -99,12 +106,22 @@ void load_SDL_and_Images(){
 void unload_SDL_and_Images(){
     SDL_DestroyTexture(table_Img);
     SDL_DestroyTexture(menu_Img);
+    for (int i = 0; i <= 25; i++){
+        SDL_DestroyTexture(Img_ar[i]);
+    }
+
+    SDL_DestroyTexture(quan0_Img);
+    SDL_DestroyTexture(quan6_Img);
+    SDL_DestroyTexture(arrow_Img);
+    SDL_DestroyTexture(clear_arrow_Img);
+    SDL_DestroyTexture(clear_quan0_Img);
+    SDL_DestroyTexture(clear_quan6_Img);
     quitSDL(window, renderer);
 
 }
 
 void SDL_draw_pieces(int num, int i){
-    waitUntilKeyPressed();
+    //waitUntilKeyPressed();
     if (i != 0 && i != 6){
         renderTexture(Img_ar[num], renderer, cell_pos[i].x, cell_pos[i].y);
         SDL_RenderPresent(renderer);
@@ -112,24 +129,70 @@ void SDL_draw_pieces(int num, int i){
     else {
         renderTexture(Img_ar[num], renderer, cell_pos[i].x, cell_pos[i].y, 80, 80);
         SDL_RenderPresent(renderer);
-        if (i == 0){
-            renderTexture(quan0_Img, renderer, 200, 310, 45, 45);
-            SDL_RenderPresent(renderer);
-        }
-        if (i == 6){
-            renderTexture(quan6_Img, renderer, 860, 450, 45, 45);
-            SDL_RenderPresent(renderer);
-        }
+    if (i == 0){
+
+    }
+//        if (i == 0 && quan0 == 0){
+//            renderTexture(quan0_Img, renderer, 200, 310, 45, 45);
+//            SDL_RenderPresent(renderer);
+//        }
+//        if (i == 6 && quan6 == 0){
+//            renderTexture(quan6_Img, renderer, 860, 450, 45, 45);
+//            SDL_RenderPresent(renderer);
+//        }
 
 
     }
 
 }
 
-void SDL_clear_pieces(int i){
-    renderTexture(Img_ar[0], renderer, cell_pos[i].x, cell_pos[i].y);
-    SDL_RenderClear(renderer);
 
+void SDL_clear_pieces(int i){
+    if (i == 0){
+        renderTexture(clear_quan0_Img, renderer, 200, 310, 45, 45);
+        SDL_RenderPresent(renderer);
+    }
+    if (i == 6){
+        renderTexture(clear_quan6_Img, renderer, 860, 450, 45, 45);
+        SDL_RenderPresent(renderer);
+    }
+    renderTexture(Img_ar[0], renderer, cell_pos[i].x, cell_pos[i].y);
+    //SDL_RenderClear(renderer);
+
+}
+
+
+
+void SDL_find_mouse(int *x, int *y, bool &stop){
+    if (stop){
+        return;
+    }
+    Uint32 buttons;
+    int xx, yy;
+    buttons = SDL_GetMouseState(&xx, &yy);
+    *x = xx;
+    *y = yy;
+    if ((buttons & SDL_BUTTON_LMASK) != 0){
+        /* *x = xx;
+        *y = yy; */
+		stop = true;
+    }
+
+    //
+}
+
+#define arrow_Img_size_x 96
+#define arrow_Img_size_y 39
+void SDL_direction_arrow(int i, int turn, int *center_x, int *center_y){
+    int m;
+    if (turn == 1)
+        m = 120;
+    else
+        m = -50;
+    renderTexture(arrow_Img, renderer, cell_pos[i].x + 3, cell_pos[i].y + m);
+    SDL_RenderPresent(renderer);
+    *center_x = cell_pos[i].x + 3 + (arrow_Img_size_x /2);
+    *center_y = cell_pos[i].y + m;
 }
 
 int SDL_find_i(int x, int y){
@@ -143,6 +206,38 @@ int SDL_find_i(int x, int y){
             return i;
     }
     return p;
+}
+
+void SDL_clear_direction_arrow(int i, int turn){
+    int m;
+    if (turn == 1)
+        m = 120;
+    else
+        m = -50;
+    renderTexture(clear_arrow_Img, renderer, cell_pos[i].x + 3, cell_pos[i].y + m);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_clear_quan0(){
+    renderTexture(clear_quan0_Img, renderer, 200, 310, 45, 45);
+    SDL_RenderPresent(renderer);
+}
+
+
+void SDL_clear_quan6(){
+    renderTexture(clear_quan6_Img, renderer, 860, 450, 45, 45);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_draw_quan0(){
+    renderTexture(quan0_Img, renderer, 200, 310, 45, 45);
+    SDL_RenderPresent(renderer);
+}
+
+
+void SDL_draw_quan6(){
+    renderTexture(quan6_Img, renderer, 860, 450, 45, 45);
+    SDL_RenderPresent(renderer);
 }
 
 //**********************************

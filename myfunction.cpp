@@ -11,18 +11,17 @@
 using namespace std;
 
 int table[12];
-int quan0 = 0, quan6 = 0; /*
-                                0: đang ở trong bàn
-                                1: đang ở trong player1
-                                2: đang ở trong player2
-s
-                                        */
+
+int quan0 = 0, quan6 = 0;
+
 bool game_over = false;
 int player1 = 0, player2 = 0;
 int turn = 1; // (1 , 2)
 int winner = 1; // (1, 2)
 //int mode = 1; // 1: nguoi vs nguoi  || 2: nguoi vs may
 SDL_Event e;
+#define DELAY 250
+int center_x, center_y;
 
 void select_mode(int &mode){
     cout << "Select mode: ";
@@ -242,6 +241,7 @@ void rai_quan(){
         }
         for (int i = 1; i <= 5; i++){
             table[i]++;
+            SDL_draw_pieces(table[i], i);
             player1--;
         }
     }
@@ -253,6 +253,7 @@ void rai_quan(){
         }
         for (int i = 7; i <= 11; i++){
             table[i]++;
+            SDL_draw_pieces(table[i], i);
             player2--;
         }
     }
@@ -277,25 +278,69 @@ int get_position(int turn){
 //                cin >> p;
 //            }
 //    }
+    SDL_PumpEvents();
+    if (e.type == SDL_QUIT) exit(1);
     Uint32 buttons;
     int x, y;
-    while (true){
-        SDL_Delay(10);
+    bool ok = false;
+    while (!ok){
+        SDL_Delay(DELAY);
         if (e.type == SDL_QUIT) break;
         if ( SDL_WaitEvent(&e) == 0) continue;
         buttons = SDL_GetMouseState(&x, &y);
         if ((buttons & SDL_BUTTON_LMASK) != 0){
             SDL_Log("Mouse cursor is at %d, %d", x, y);
-            break;
+            p = SDL_find_i(x, y);
+            //break;
+            if (turn == 1 && table[p] != 0){
+                if (p == 1 || p == 2 || p ==3 || p == 4 || p == 5){
+                    ok = true;
+                    break;
+                }
+
+            }
+            if (turn == 2 && table[p] != 0){
+                if (p == 7 || p == 8 || p ==9 || p == 10 || p == 11){
+                    ok = true;
+                    break;
+                }
+
+            }
         }
         if (e.type == SDL_QUIT) break;
     }
-    p = SDL_find_i(x, y);
+    //p = SDL_find_i(x, y);
     return p;
 }
 
-int get_direction(){
+int get_direction(int position, int turn, int center_x, int center_y){
 
+    cout << "center: " << center_x << " " << center_y << endl;
+    int x, y;
+    Uint32 buttons;
+    bool stop = false;
+    while (true){
+        SDL_PumpEvents();
+        buttons = SDL_GetMouseState(&x , &y);
+        if ((buttons & SDL_BUTTON_LMASK) != 0){
+            break;
+        }
+        //cout << "current mouse: " << x << " " << y << endl;
+    }
+    cout << "mouse: " << x << " " << y << endl;
+    //waitUntilKeyPressed();
+    if (turn == 1){
+        if (x > center_x)
+            return 1;
+        if (x < center_x)
+            return -1;
+    }
+    if (turn == 2){
+        if (x > center_x)
+            return -1;
+        if (x < center_x)
+            return 1;
+    }
 }
 
 int get_new_position(int position, int direction){
@@ -320,6 +365,7 @@ void di_quan(int position, int so_quan_hien_tai, int direction){
         cout << "p: " << position << " " << so_quan_hien_tai - 1 << " " << endl;
         so_quan_hien_tai--;
         table[position]++;
+        SDL_Delay(DELAY);
         SDL_draw_pieces(table[position], position);
         if (so_quan_hien_tai == 0){
             int temp_position = get_new_position(position, direction);
@@ -347,12 +393,15 @@ void di_quan(int position, int so_quan_hien_tai, int direction){
         else
             player2 += table[second_next_position];
         table[second_next_position] = 0;
+        SDL_Delay(DELAY);
         SDL_draw_pieces(0, second_next_position);
         if (second_next_position == 0){
             quan0 = turn;
+            SDL_clear_quan0();
         }
         if (second_next_position == 6){
             quan6 = turn;
+            SDL_clear_quan6();
         }
         current_position = second_next_position;
         next_position = get_new_position(current_position, direction);
@@ -367,9 +416,15 @@ void play_mode_1(){
     int position, direction;
     int so_quan_hien_tai;
     SDL_show_table();
-    for (int i = 0; i <= 11; i++){
+    for (int i = 1; i <= 5; i++){
         SDL_draw_pieces(table[i], i);
     }
+    for (int i = 7; i <= 11; i++){
+        SDL_draw_pieces(table[i], i);
+    }
+    SDL_draw_quan0();
+    SDL_draw_quan6();
+
     while (game_over == false){
 
 
@@ -389,9 +444,15 @@ void play_mode_1(){
 //        cin >> position;
 
         position = get_position(turn);
-
-        cout << "Chon huong +1/-1: ";
-        cin >> direction;
+        cout << "pos: " << position << endl;
+        SDL_direction_arrow(position, turn, &center_x, &center_y);
+        SDL_Delay(DELAY);
+        direction = get_direction(position, turn, center_x, center_y);
+        cout << direction << endl;
+        waitUntilKeyPressed();
+        SDL_clear_direction_arrow(position, turn);
+        //cout << "Chon huong +1/-1: ";
+        //cin >> direction;
         // +1 la sang phai, -1 la sang trai
         // luu y turn 2
         /* if (turn == 2){
@@ -505,7 +566,7 @@ string int_to_string(int n){
 }
 
 void SDL_test(){
-    SDL_Init();
+    //SDL_Init();
     SDL_show_table();
 //    SDL_draw_pieces(1, 1);
 //    SDL_draw_pieces(1, 2);
@@ -516,20 +577,24 @@ void SDL_test(){
     int i;
     int x, y;
     Uint32 buttons;
-    while (true){
-        SDL_Delay(10);
-        if (e.type == SDL_QUIT) break;
-        if ( SDL_WaitEvent(&e) == 0) continue;
-        buttons = SDL_GetMouseState(&x, &y);
-        if ((buttons & SDL_BUTTON_LMASK) != 0){
-            SDL_Log("Mouse cursor is at %d, %d", x, y);
-            i = SDL_find_i(x, y);
-            cout << endl << "i: " << i << endl;
-            //break;
-        }
-        if (e.type == SDL_QUIT) break;
+    bool stop = false;
+    while (!stop){
+//        SDL_Delay(10);
+//        if (e.type == SDL_QUIT) break;
+//        if ( SDL_WaitEvent(&e) == 0) continue;
+//        buttons = SDL_GetMouseState(&x, &y);
+//        if ((buttons & SDL_BUTTON_LMASK) != 0){
+//            SDL_Log("Mouse cursor is at %d, %d", x, y);
+//            i = SDL_find_i(x, y);
+//            cout << endl << "i: " << i << endl;
+//            //break;
+//        }
+//        if (e.type == SDL_QUIT) break;
+        SDL_PumpEvents();
+        SDL_find_mouse(&x, &y, stop);
+        cout << "current mouse: " << x << " " << y << endl;
     }
-
+    cout << "mouse: " << x << " " << y << endl;
     waitUntilKeyPressed();
 }
 

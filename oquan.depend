@@ -384,30 +384,30 @@
 	"begin_code.h"
 	"close_code.h"
 
-1651809961 source:d:\oquan\mainv1.cpp
+1651914572 source:d:\oquan\mainv1.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"myfunction.hpp"
 	"mySDLfunction.hpp"
 
-1651809866 source:d:\oquan\myfunction.cpp
+1651915948 source:d:\oquan\myfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"mySDLfunction.hpp"
 	"myfunction.hpp"
 
-1651768129 d:\oquan\myfunction.hpp
+1651915137 d:\oquan\myfunction.hpp
 
-1651806296 d:\oquan\mysdlfunction.hpp
+1651915547 d:\oquan\mysdlfunction.hpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"mySDLfunction.hpp"
 	"myfunction.hpp"
 
-1651809503 source:d:\oquan\mysdlfunction.cpp
+1651915547 source:d:\oquan\mysdlfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>

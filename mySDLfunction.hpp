@@ -45,6 +45,20 @@ void SDL_draw_pieces(int num, int i);
 
 void SDL_clear_pieces(int i);
 
+void SDL_direction_arrow(int i, int turn, int *center_x, int *center_y);
+
+void SDL_clear_direction_arrow(int i, int turn);
+
+void SDL_find_mouse(int *x, int *y, bool &stop);
+
 int SDL_find_i(int x, int y);
+
+void SDL_clear_quan0();
+
+void SDL_clear_quan6();
+
+void SDL_draw_quan0();
+
+void SDL_draw_quan6();
 
 #endif // MYSDLFUNCTION_HPP_INCLUDED
