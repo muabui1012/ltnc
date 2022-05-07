@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
     SDL_Init();
     play_mode_1();
     //SDL_test();
-    unload_SDL_and_Images();
+    //unload_SDL_and_Images();
     return 0;
 }
 

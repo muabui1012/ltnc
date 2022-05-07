@@ -20,7 +20,7 @@ int turn = 1; // (1 , 2)
 int winner = 1; // (1, 2)
 //int mode = 1; // 1: nguoi vs nguoi  || 2: nguoi vs may
 SDL_Event e;
-#define DELAY 250
+#define DELAY 50
 int center_x, center_y;
 
 void select_mode(int &mode){
@@ -278,15 +278,12 @@ int get_position(int turn){
 //                cin >> p;
 //            }
 //    }
-    SDL_PumpEvents();
-    if (e.type == SDL_QUIT) exit(1);
+
     Uint32 buttons;
     int x, y;
     bool ok = false;
     while (!ok){
-        SDL_Delay(DELAY);
-        if (e.type == SDL_QUIT) break;
-        if ( SDL_WaitEvent(&e) == 0) continue;
+        SDL_PumpEvents();
         buttons = SDL_GetMouseState(&x, &y);
         if ((buttons & SDL_BUTTON_LMASK) != 0){
             SDL_Log("Mouse cursor is at %d, %d", x, y);
@@ -307,14 +304,12 @@ int get_position(int turn){
 
             }
         }
-        if (e.type == SDL_QUIT) break;
     }
     //p = SDL_find_i(x, y);
     return p;
 }
 
 int get_direction(int position, int turn, int center_x, int center_y){
-
     cout << "center: " << center_x << " " << center_y << endl;
     int x, y;
     Uint32 buttons;
@@ -446,10 +441,10 @@ void play_mode_1(){
         position = get_position(turn);
         cout << "pos: " << position << endl;
         SDL_direction_arrow(position, turn, &center_x, &center_y);
-        SDL_Delay(DELAY);
+        SDL_Delay(500);
         direction = get_direction(position, turn, center_x, center_y);
         cout << direction << endl;
-        waitUntilKeyPressed();
+
         SDL_clear_direction_arrow(position, turn);
         //cout << "Chon huong +1/-1: ";
         //cin >> direction;
@@ -579,17 +574,6 @@ void SDL_test(){
     Uint32 buttons;
     bool stop = false;
     while (!stop){
-//        SDL_Delay(10);
-//        if (e.type == SDL_QUIT) break;
-//        if ( SDL_WaitEvent(&e) == 0) continue;
-//        buttons = SDL_GetMouseState(&x, &y);
-//        if ((buttons & SDL_BUTTON_LMASK) != 0){
-//            SDL_Log("Mouse cursor is at %d, %d", x, y);
-//            i = SDL_find_i(x, y);
-//            cout << endl << "i: " << i << endl;
-//            //break;
-//        }
-//        if (e.type == SDL_QUIT) break;
         SDL_PumpEvents();
         SDL_find_mouse(&x, &y, stop);
         cout << "current mouse: " << x << " " << y << endl;

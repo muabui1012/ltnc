@@ -384,14 +384,14 @@
 	"begin_code.h"
 	"close_code.h"
 
-1651914572 source:d:\oquan\mainv1.cpp
+1651916294 source:d:\oquan\mainv1.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"myfunction.hpp"
 	"mySDLfunction.hpp"
 
-1651915948 source:d:\oquan\myfunction.cpp
+1651917279 source:d:\oquan\myfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
