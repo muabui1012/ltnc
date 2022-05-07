@@ -391,7 +391,7 @@
 	"myfunction.hpp"
 	"mySDLfunction.hpp"
 
-1651917279 source:d:\oquan\myfunction.cpp
+1651938156 source:d:\oquan\myfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -400,14 +400,14 @@
 
 1651915137 d:\oquan\myfunction.hpp
 
-1651915547 d:\oquan\mysdlfunction.hpp
+1651937526 d:\oquan\mysdlfunction.hpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"mySDLfunction.hpp"
 	"myfunction.hpp"
 
-1651915547 source:d:\oquan\mysdlfunction.cpp
+1651938099 source:d:\oquan\mysdlfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>

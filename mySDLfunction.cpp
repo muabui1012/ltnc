@@ -15,11 +15,11 @@ using namespace std;
 //
 SDL_Window* window = NULL;
 SDL_Renderer* renderer;
-SDL_Texture *table_Img, *pieces_Img,
+SDL_Texture *table_Img, *pieces_Img, *hand_Img, *clear_hand_Img,
             *menu_Img, *quan0_Img, *quan6_Img, *arrow_Img, *clear_arrow_Img,
-            *clear_quan0_Img, *clear_quan6_Img;
+            *clear_quan0_Img, *clear_quan6_Img, *turn_Img, *clear_turn_Img;
 
-SDL_Texture *Img_ar[51];
+SDL_Texture *Img_ar[70];
 
 struct cell{
     int x;
@@ -80,7 +80,7 @@ void load_SDL_and_Images(){
         unload_SDL_and_Images();
         exit(1);
     }
-    for (int i = 0; i <= 25; i++){
+    for (int i = 0; i < 77; i++){
         string name;
         name = "Image/" + int_to_string(i) + ".png";
         Img_ar[i] = loadTexture(name, renderer);
@@ -97,8 +97,12 @@ void load_SDL_and_Images(){
     clear_quan0_Img = loadTexture("Image/clear_quan.png", renderer);
     clear_quan6_Img = loadTexture("Image/clear_quan.png", renderer);
 
+    turn_Img = loadTexture("Image/turn.png", renderer);
+    clear_turn_Img = loadTexture("Image/clear_turn.png", renderer);
     arrow_Img = loadTexture("Image/direction.png", renderer);
     clear_arrow_Img = loadTexture("Image/direction_empty.png", renderer);
+    hand_Img = loadTexture("Image/hand.png", renderer);
+    clear_hand_Img = loadTexture("Image/clear_hand.png", renderer);
 
 }
 
@@ -121,7 +125,6 @@ void unload_SDL_and_Images(){
 }
 
 void SDL_draw_pieces(int num, int i){
-    //waitUntilKeyPressed();
     if (i != 0 && i != 6){
         renderTexture(Img_ar[num], renderer, cell_pos[i].x, cell_pos[i].y);
         SDL_RenderPresent(renderer);
@@ -129,21 +132,7 @@ void SDL_draw_pieces(int num, int i){
     else {
         renderTexture(Img_ar[num], renderer, cell_pos[i].x, cell_pos[i].y, 80, 80);
         SDL_RenderPresent(renderer);
-    if (i == 0){
-
     }
-//        if (i == 0 && quan0 == 0){
-//            renderTexture(quan0_Img, renderer, 200, 310, 45, 45);
-//            SDL_RenderPresent(renderer);
-//        }
-//        if (i == 6 && quan6 == 0){
-//            renderTexture(quan6_Img, renderer, 860, 450, 45, 45);
-//            SDL_RenderPresent(renderer);
-//        }
-
-
-    }
-
 }
 
 
@@ -160,6 +149,21 @@ void SDL_clear_pieces(int i){
     //SDL_RenderClear(renderer);
 
 }
+
+void SDL_draw_pieces(int num, int x, int y){
+    renderTexture(Img_ar[num], renderer, x, y);
+    SDL_RenderPresent(renderer);
+
+}
+
+
+void SDL_clear_pieces(int x, int y){
+
+    renderTexture(Img_ar[0], renderer, x, y);
+    SDL_RenderPresent(renderer);
+
+}
+
 
 
 
@@ -237,6 +241,108 @@ void SDL_draw_quan0(){
 
 void SDL_draw_quan6(){
     renderTexture(quan6_Img, renderer, 860, 450, 45, 45);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_draw_quan(int turn, int quan){
+
+    int x, y;
+    if (quan == 6){
+
+        if (turn == 0){
+            x = 220;
+            y = 645;
+        }
+        else {
+            x = 780;
+            y = 45;
+        }
+        renderTexture(quan6_Img, renderer, x, y, 40, 40);
+    }
+    else {
+
+        if (turn == 0){
+            x = 220;
+            y = 695;
+        }
+        else {
+            x = 770;
+            y = 105;
+        }
+        renderTexture(quan0_Img, renderer, x, y, 40, 40);
+    }
+
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_draw_score(int score, int turn){
+    int x, y;
+    if (turn == 1){
+        x = 100;
+        y = 635;
+    }
+    if (turn == 2){
+        x = 825;
+        y = 60;
+    }
+    renderTexture(Img_ar[score], renderer, x, y);
+    SDL_RenderPresent(renderer);
+
+}
+
+void SDL_draw_turn(int turn){
+    int x, y;
+    if (turn == 1){
+        x = 315;
+        y = 605;
+    }
+    else {
+        x = 510;
+        y = 65;
+    }
+    renderTexture(turn_Img, renderer, x, y, 120, 25);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_clear_turn(int turn){
+    int x, y;
+    if (turn == 1){
+        x = 315;
+        y = 605;
+    }
+    else {
+        x = 510;
+        y = 65;
+    }
+    renderTexture(clear_turn_Img, renderer, x, y, 120,25);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_draw_hand(int turn){
+    int x, y;
+    if (turn == 1){
+        x = 475;
+        y = 575;
+    }
+    else {
+        x = 370;
+        y = 173;
+    }
+    renderTexture(hand_Img, renderer, x, y, 50, 50);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_clear_hand(int turn){
+    int x, y;
+    if (turn == 1){
+        x = 475;
+        y = 575;
+    }
+    else {
+        x = 370;
+        y = 173;
+    }
+    renderTexture(clear_hand_Img, renderer, x, y, 50, 50);
     SDL_RenderPresent(renderer);
 }
 
