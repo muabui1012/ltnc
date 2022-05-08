@@ -17,7 +17,8 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer;
 SDL_Texture *table_Img, *pieces_Img, *hand_Img, *clear_hand_Img,
             *menu_Img, *quan0_Img, *quan6_Img, *arrow_Img, *clear_arrow_Img,
-            *clear_quan0_Img, *clear_quan6_Img, *turn_Img, *clear_turn_Img;
+            *clear_quan0_Img, *clear_quan6_Img, *turn_Img, *clear_turn_Img,
+            *winner1_Img, *winner2_Img, *msg_Img, *draw_Img;
 
 SDL_Texture *Img_ar[70];
 
@@ -53,6 +54,61 @@ void SDL_Init(){
 
 
 
+}
+
+int SDL_select_mode(){
+    SDL_show_menu();
+    SDL_Delay(300);
+    Uint32 buttons;
+    int x, y, xx, yy;
+    bool stop = false;
+    while (!stop){
+        SDL_PumpEvents();
+        buttons = SDL_GetMouseState(&x, &y);
+        //cout << "mouse: " << x <<  " " << y << endl;
+        if ((buttons & SDL_BUTTON_LMASK) != 0){
+            stop = true;
+            break;
+        }
+
+
+
+
+    }
+    cout << "M " << x <<  " " << y << endl;
+    //370, 430   650, 500
+    if (370 <= x && x <= 655 && 430 <= y && y <= 500){
+        return 2;
+    }
+    //370, 580   650, 650
+    if (370 <= x && x <= 655 && 580 <= y && y <= 650){
+        return 1;
+    }
+    return 0;
+}
+
+void SDL_show_menu(){
+    SDL_RenderClear(renderer);
+    renderTexture(menu_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_RenderPresent(renderer);
+
+}
+
+void SDL_show_end(int player){
+    SDL_RenderClear(renderer);
+    if (player == 1){
+        renderTexture(winner1_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    if (player == 2){
+        renderTexture(winner2_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    if (player == 0){
+        renderTexture(draw_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    SDL_RenderPresent(renderer);
+    SDL_Delay(3000);
+    //waitUntilKeyPressed();
 }
 
 void SDL_show_table(int a[12]){
@@ -96,13 +152,17 @@ void load_SDL_and_Images(){
     quan6_Img = loadTexture("Image/quan6.png", renderer);
     clear_quan0_Img = loadTexture("Image/clear_quan.png", renderer);
     clear_quan6_Img = loadTexture("Image/clear_quan.png", renderer);
-
+    menu_Img = loadTexture("Image/menu.png", renderer);
     turn_Img = loadTexture("Image/turn.png", renderer);
     clear_turn_Img = loadTexture("Image/clear_turn.png", renderer);
     arrow_Img = loadTexture("Image/direction.png", renderer);
     clear_arrow_Img = loadTexture("Image/direction_empty.png", renderer);
     hand_Img = loadTexture("Image/hand.png", renderer);
     clear_hand_Img = loadTexture("Image/clear_hand.png", renderer);
+    winner1_Img = loadTexture("Image/player1.png", renderer);
+    winner2_Img = loadTexture("Image/player2.png", renderer);
+    msg_Img = loadTexture("Image/msg.png", renderer);
+    draw_Img = loadTexture("Image/draw.png", renderer);
 
 }
 
@@ -249,27 +309,27 @@ void SDL_draw_quan(int turn, int quan){
     int x, y;
     if (quan == 6){
 
-        if (turn == 0){
-            x = 220;
-            y = 645;
+        if (turn == 1){
+            x = 197;
+            y = 627;
         }
         else {
             x = 780;
             y = 45;
         }
-        renderTexture(quan6_Img, renderer, x, y, 40, 40);
+        renderTexture(quan6_Img, renderer, x, y, 35, 35);
     }
     else {
 
-        if (turn == 0){
-            x = 220;
-            y = 695;
+        if (turn == 1){
+            x = 197;
+            y = 663;
         }
         else {
             x = 770;
-            y = 105;
+            y = 55;
         }
-        renderTexture(quan0_Img, renderer, x, y, 40, 40);
+        renderTexture(quan0_Img, renderer, x, y, 35, 35);
     }
 
     SDL_RenderPresent(renderer);
@@ -345,6 +405,12 @@ void SDL_clear_hand(int turn){
     renderTexture(clear_hand_Img, renderer, x, y, 50, 50);
     SDL_RenderPresent(renderer);
 }
+
+void SDL_msg(){
+    renderTexture(msg_Img, renderer, 250, 205);
+    SDL_RenderPresent(renderer);
+}
+
 
 //**********************************
 // Các hàm chung về khởi tạo và huỷ SDL

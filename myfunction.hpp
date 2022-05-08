@@ -4,15 +4,13 @@ using namespace std;
 
 void init();
 
-void init(int table[12]);
-
 void show_menu();
 
 void select_mode(int &mode);
 
 void ket_thuc();
 
-void end_round(int end_case);
+void end_round(int end_case, int turn);
 
 int choose_mode();
 

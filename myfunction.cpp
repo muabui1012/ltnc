@@ -20,44 +20,26 @@ int turn = 1; // (1 , 2)
 int winner = 1; // (1, 2)
 //int mode = 1; // 1: nguoi vs nguoi  || 2: nguoi vs may
 SDL_Event e;
-#define DELAY 330
+#define DELAY 250
 int center_x, center_y;
 int x, y;
 
-void select_mode(int &mode){
-    cout << "Select mode: ";
-    cin >> mode;
-}
-
-void init(int arr[12]){
-
-    for (int i = 1; i <= 5; i++){
-        arr[i] = 5;
-    }
-    for (int i = 7; i <= 11; i++){
-        arr[i] = 5;
-    }
-    arr[0] = 0;
-    arr[6] = 0;
-
-    /* quan6 = 1;
-    quan0 = 0;
-    a[3] = 1;
-    */
-
-
-
-}
 
 void init(){
 
-    for (int i = 1; i <= 5; i++){
-        table[i] = 5;
+    for (int i = 2; i <= 4; i++){
+        table[i] = 1;
     }
-    for (int i = 7; i <= 11; i++){
-        table[i] = 5;
+    for (int i = 6; i <= 10; i++){
+        table[i] = 1;
     }
-
+    quan0 = 0;
+    quan6 = 0;
+    game_over = false;
+    player1 = 0;
+    player2 = 0;
+    turn = 1;
+    winner = 0;
 
     /* quan6 = 1;
     quan0 = 0;
@@ -81,20 +63,31 @@ void end_round(int end_case, int turn){
         2: hết quan toàn dân vơ về
 
     */
-    waitUntilKeyPressed();
+    //waitUntilKeyPressed();
+
     if (end_case == 1){
         cout << "Player 1: " << player1 << endl;
         cout << "Player 2: " << player2 << endl;
         int winner = get_next_turn(turn);
         cout << "Winner: " << winner << endl;
+        SDL_show_end(winner);
+
+        //waitUntilKeyPressed();
         return;
     }
 
 
 
     cout << "Het quan toan dan vo ve: " << endl;
+    SDL_msg();
+    //SDL_Delay(4*DELAY);
+    //waitUntilKeyPressed();
+
     for (int i = 1; i <= 5; i++){
         player1 += table[i];
+        if (table[i] != 0){
+            SDL_draw_pieces(0, i);
+        }
         table[i] = 0;
     }
     if (quan0 == 1){
@@ -103,8 +96,13 @@ void end_round(int end_case, int turn){
     if (quan6 == 1){
         player1 += 5;
     }
+    SDL_draw_score(player1, 1);
+    //waitUntilKeyPressed();
     for (int i = 7; i <= 11; i++){
         player2 += table[i];
+        if (table[i] != 0){
+            SDL_draw_pieces(0, i);
+        }
         table[i] = 0;
     }
     if (quan0 == 2){
@@ -113,16 +111,27 @@ void end_round(int end_case, int turn){
     if (quan6 == 2){
         player2 += 5;
     }
+    SDL_draw_score(player2, 2);
+
+    //waitUntilKeyPressed();
+    SDL_Delay(5000);
+
     cout << "Player 1: " << player1 << endl;
     cout << "Player 2: " << player2 << endl;
     if (player1 > player2){
         cout << "Winner: " << 1 << endl;
+        SDL_show_end(1);
+
     }
     else if (player1 < player2){
         cout << "Winner: " << 2 << endl;
+        SDL_show_end(2);
+
     }
     else {
         cout << "Draw" << endl;
+        SDL_show_end(0);
+
     }
 
 
@@ -359,6 +368,7 @@ void di_quan(int position, int so_quan_hien_tai, int direction){
     while (so_quan_hien_tai != 0){
         position = get_new_position(position, direction);
         cout << "p: " << position << " " << so_quan_hien_tai - 1 << " " << endl;
+		SDL_Delay(DELAY);
         so_quan_hien_tai--;
         SDL_draw_pieces(so_quan_hien_tai, x, y);
         table[position]++;
@@ -370,9 +380,11 @@ void di_quan(int position, int so_quan_hien_tai, int direction){
                 if (table[temp_position] != 0){
                     so_quan_hien_tai = table[temp_position];
                     table[temp_position] = 0;
+                    SDL_Delay(DELAY);
                     SDL_draw_pieces(0, temp_position);
                     SDL_Delay(DELAY);
                     SDL_draw_pieces(so_quan_hien_tai, x, y);
+                    SDL_Delay(2*DELAY);
                     position = temp_position;
                 }
             }
@@ -398,13 +410,13 @@ void di_quan(int position, int so_quan_hien_tai, int direction){
         table[second_next_position] = 0;
         SDL_Delay(DELAY);
         SDL_draw_pieces(0, second_next_position);
-        if (second_next_position == 0){
+        if (second_next_position == 0 && quan0 == 0){
             quan0 = turn;
             SDL_clear_quan0();
             SDL_Delay(45);
             SDL_draw_quan(turn, 0);
         }
-        if (second_next_position == 6){
+        if (second_next_position == 6 && quan6 == 0){
             quan6 = turn;
             SDL_clear_quan6();
             SDL_Delay(45);
@@ -526,10 +538,18 @@ void play_mode_2(){
     turn = 1;
     int position, direction;
     int so_quan_hien_tai;
-
+    SDL_show_table();
+    for (int i = 1; i <= 5; i++){
+        SDL_draw_pieces(table[i], i);
+    }
+    for (int i = 7; i <= 11; i++){
+        SDL_draw_pieces(table[i], i);
+    }
+    SDL_draw_quan0();
+    SDL_draw_quan6();
     while (!game_over){
-
-        show_table();
+        SDL_draw_turn(turn);
+        //show_table();
         cout << "Luot: " << turn << endl;
 
         if (ban_trong(turn)){
@@ -537,30 +557,51 @@ void play_mode_2(){
         }
 
         if (turn == 1){
-            cout << "chon cac o 1, 2, 3, 4, 5" << endl;
+            position = get_position(turn);
+            cout << "pos: " << position << endl;
+            SDL_direction_arrow(position, turn, &center_x, &center_y);
+            SDL_Delay(500);
+            direction = get_direction(position, turn, center_x, center_y);
+            cout << direction << endl;
 
-            cout << "Chon o: ";
-            cin >> position;
-
-            cout << "Chon huong +1/-1: ";
-            cin >> direction;
+            SDL_clear_direction_arrow(position, turn);
 
             so_quan_hien_tai = table[position];
+            SDL_draw_hand(turn);
+            x = 530;
+            y = 575;
+            SDL_draw_pieces(so_quan_hien_tai, x, y);
             table[position] = 0;
+            SDL_draw_pieces(0, position);
             di_quan(position, so_quan_hien_tai, direction);
-
+            SDL_draw_pieces(0, position);
             game_over = check_game_over();
+            SDL_clear_pieces(x, y);
+            SDL_clear_hand(turn);
+            SDL_clear_turn(turn);
             turn = get_next_turn(turn);
         }
         else {
 
             get_best_choice(&position, &direction);
             cout << position << " " << direction << "//" << endl;
+            SDL_Delay(2*DELAY);
             so_quan_hien_tai = table[position];
+
             table[position] = 0;
+            SDL_draw_hand(turn);
+            x = 425;
+            y = 173;
+            SDL_draw_pieces(so_quan_hien_tai, x, y);
+            table[position] = 0;
+            SDL_draw_pieces(0, position);
+			SDL_Delay(DELAY);
             di_quan(position, so_quan_hien_tai, direction);
 
             game_over = check_game_over();
+            SDL_clear_pieces(x, y);
+            SDL_clear_hand(turn);
+            SDL_clear_turn(turn);
             turn = get_next_turn(turn);
         }
 
@@ -588,22 +629,29 @@ string int_to_string(int n){
 void SDL_test(){
     //SDL_Init();
     SDL_show_table();
+    waitUntilKeyPressed();
+    //end_round(2, 1);
 //    SDL_draw_pieces(1, 1);
 //    SDL_draw_pieces(1, 2);
 //    waitUntilKeyPressed();
 //    SDL_draw_pieces(0, 1);
 //    SDL_draw_pieces(2, 2);
 //    SDL_Delay(500);
-    int i;
-    int x, y;
-    Uint32 buttons;
-    bool stop = false;
-    while (!stop){
-        SDL_PumpEvents();
-        SDL_find_mouse(&x, &y, stop);
-        cout << "current mouse: " << x << " " << y << endl;
-    }
-    cout << "mouse: " << x << " " << y << endl;
-    waitUntilKeyPressed();
-}
+//    int i;
+//    int x, y;
+//    Uint32 buttons;
+//    bool stop = false;
+//    while (!stop){
+//        SDL_PumpEvents();
+//        SDL_find_mouse(&x, &y, stop);
+//        cout << "current mouse: " << x << " " << y << endl;
+//    }
+//    cout << "mouse: " << x << " " << y << endl;
+//    waitUntilKeyPressed();
+    //SDL_show_end(1);
+    //play_mode_1();
+    //SDL_show_end(2);
+    player1 = 1;
+    player2 = 0;
 
+}

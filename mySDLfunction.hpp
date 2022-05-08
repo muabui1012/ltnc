@@ -29,11 +29,11 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
 
 void SDL_Init();
 
+int SDL_select_mode();
+
 void SDL_show_menu();
 
-void SDL_ket_thuc();
-
-void SDL_end_round(int end_case);
+void SDL_show_end(int player);
 
 void SDL_show_score();
 
@@ -77,4 +77,5 @@ void SDL_draw_hand(int turn);
 
 void SDL_clear_hand(int turn);
 
+void SDL_msg();
 #endif // MYSDLFUNCTION_HPP_INCLUDED
