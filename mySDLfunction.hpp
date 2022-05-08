@@ -35,6 +35,10 @@ void SDL_show_menu();
 
 void SDL_show_end(int player);
 
+void SDL_msg_ban_thang();
+
+void SDL_msg_may_thang();
+
 void SDL_show_score();
 
 void SDL_show_table(int table[12]);

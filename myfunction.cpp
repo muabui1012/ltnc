@@ -14,24 +14,26 @@ int table[12];
 
 int quan0 = 0, quan6 = 0;
 
+int my_mode;
+
 bool game_over = false;
 int player1 = 0, player2 = 0;
 int turn = 1; // (1 , 2)
 int winner = 1; // (1, 2)
 //int mode = 1; // 1: nguoi vs nguoi  || 2: nguoi vs may
 SDL_Event e;
-#define DELAY 350
+#define DELAY 250
 int center_x, center_y;
 int x, y;
 
 
 void init(){
 
-    for (int i = 1; i <= 5; i++){
-        table[i] = 5;
+    for (int i = 2; i <= 4; i++){
+        table[i] = 1;
     }
-    for (int i = 7; i <= 11; i++){
-        table[i] = 5;
+    for (int i = 8; i <= 10; i++){
+        table[i] = 1;
     }
     quan0 = 0;
     quan6 = 0;
@@ -48,6 +50,11 @@ void init(){
 
 
 
+}
+
+void get_mode_from_main(int &mode){
+    my_mode = mode;
+    cout << my_mode << "-------------------------" << endl;
 }
 
 int get_next_turn(int turn){
@@ -91,13 +98,14 @@ void end_round(int end_case, int turn){
         }
         table[i] = 0;
     }
+    SDL_draw_score(player1, 1);
     if (quan0 == 1){
         player1 += 5;
     }
     if (quan6 == 1){
         player1 += 5;
     }
-    SDL_draw_score(player1, 1);
+
     //waitUntilKeyPressed();
     for (int i = 7; i <= 11; i++){
         player2 += table[i];
@@ -106,37 +114,59 @@ void end_round(int end_case, int turn){
         }
         table[i] = 0;
     }
+    SDL_draw_score(player2, 2);
     if (quan0 == 2){
         player2 += 5;
     }
     if (quan6 == 2){
         player2 += 5;
     }
-    SDL_draw_score(player2, 2);
+
 
     //waitUntilKeyPressed();
     SDL_Delay(3000);
+    if (my_mode == 1){
+        cout << "Player 1: " << player1 << endl;
+        cout << "Player 2: " << player2 << endl;
+        if (player1 > player2){
+            cout << "Winner: " << 1 << endl;
+            SDL_show_end(1);
 
-    cout << "Player 1: " << player1 << endl;
-    cout << "Player 2: " << player2 << endl;
-    if (player1 > player2){
-        cout << "Winner: " << 1 << endl;
-        SDL_show_end(1);
 
+        }
+        else if (player1 < player2){
+            cout << "Winner: " << 2 << endl;
+            SDL_show_end(2);
 
+        }
+        else {
+            cout << "Draw" << endl;
+            SDL_show_end(0);
+
+        }
     }
-    else if (player1 < player2){
-        cout << "Winner: " << 2 << endl;
-        SDL_show_end(2);
+    if (my_mode == 2){
+        cout << "Player 1: " << player1 << endl;
+        cout << "Player 2: " << player2 << endl;
+        if (player1 > player2){
+            cout << "Winner: " << 1 << endl;
+            SDL_msg_ban_thang();
 
+
+        }
+        else if (player1 < player2){
+            cout << "Winner: " << 2 << endl;
+            SDL_msg_may_thang();
+
+        }
+        else {
+            cout << "Draw" << endl;
+            SDL_show_end(0);
+
+        }
     }
-    else {
-        cout << "Draw" << endl;
-        SDL_show_end(0);
 
-    }
-
-    SDL_Delay(10000);
+    SDL_Delay(6000);
     game_over = true;
     SDL_Quit();
     return;
@@ -308,7 +338,7 @@ int get_position(int turn){
                         }
 
             buttons = SDL_GetMouseState(&x, &y);
-            SDL_Log("Mouse cursor is at %d, %d", x, y);
+            //SDL_Log("Mouse cursor is at %d, %d", x, y);
             if ((buttons & SDL_BUTTON_LMASK) != 0){
 
                 p = SDL_find_i(x, y);
@@ -555,7 +585,7 @@ void get_best_choice(int *position, int *direction){
 }
 
 void play_mode_2(){
-
+    cout << "my mode : " << my_mode << endl;
     turn = 1;
     int position, direction;
     int so_quan_hien_tai;

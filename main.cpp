@@ -48,6 +48,7 @@ int main(int argc, char* argv[]){
                 mode = 0;
                 if (mode == 0){
                     mode = SDL_select_mode();
+                    get_mode_from_main(mode);
                 }
                 else {
                     cout << mode << endl;

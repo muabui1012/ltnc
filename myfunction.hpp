@@ -6,6 +6,8 @@ void init();
 
 void show_menu();
 
+void get_mode_from_main(int &mode);
+
 void select_mode(int &mode);
 
 void ket_thuc();

@@ -18,7 +18,8 @@ SDL_Renderer* renderer;
 SDL_Texture *table_Img, *pieces_Img, *hand_Img, *clear_hand_Img,
             *menu_Img, *quan0_Img, *quan6_Img, *arrow_Img, *clear_arrow_Img,
             *clear_quan0_Img, *clear_quan6_Img, *turn_Img, *clear_turn_Img,
-            *winner1_Img, *winner2_Img, *msg_Img, *draw_Img, *x_Img;
+            *winner1_Img, *winner2_Img, *msg_Img, *draw_Img, *x_Img,
+            *ban_thang, *may_thang;
 
 SDL_Texture *Img_ar[70];
 
@@ -124,6 +125,17 @@ void SDL_show_end(int player){
     //waitUntilKeyPressed();
 }
 
+void SDL_msg_ban_thang(){
+    renderTexture(ban_thang, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_RenderPresent(renderer);
+}
+
+void SDL_msg_may_thang(){
+    renderTexture(may_thang, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_RenderPresent(renderer);
+}
+
+
 void SDL_show_table(int a[12]){
     SDL_RenderClear(renderer);
     renderTexture(table_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -176,7 +188,8 @@ void load_SDL_and_Images(){
     winner2_Img = loadTexture("Image/player2.png", renderer);
     msg_Img = loadTexture("Image/msg.png", renderer);
     draw_Img = loadTexture("Image/draw.png", renderer);
-
+    ban_thang = loadTexture("Image/ban_thang.png", renderer);
+    may_thang = loadTexture("Image/may_thang.png", renderer);
 
 }
 
