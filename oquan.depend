@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1651680796 source:d:\oquan\main.cpp
+1652018080 source:d:\oquan\main.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -384,14 +384,14 @@
 	"begin_code.h"
 	"close_code.h"
 
-1652004946 source:d:\oquan\mainv1.cpp
+1652006711 source:d:\oquan\mainv1.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"myfunction.hpp"
 	"mySDLfunction.hpp"
 
-1652005027 source:d:\oquan\myfunction.cpp
+1652022920 source:d:\oquan\myfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -400,14 +400,14 @@
 
 1652004630 d:\oquan\myfunction.hpp
 
-1652001364 d:\oquan\mysdlfunction.hpp
+1652006606 d:\oquan\mysdlfunction.hpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"mySDLfunction.hpp"
 	"myfunction.hpp"
 
-1652004906 source:d:\oquan\mysdlfunction.cpp
+1652023195 source:d:\oquan\mysdlfunction.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>

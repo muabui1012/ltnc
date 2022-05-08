@@ -18,7 +18,7 @@ SDL_Renderer* renderer;
 SDL_Texture *table_Img, *pieces_Img, *hand_Img, *clear_hand_Img,
             *menu_Img, *quan0_Img, *quan6_Img, *arrow_Img, *clear_arrow_Img,
             *clear_quan0_Img, *clear_quan6_Img, *turn_Img, *clear_turn_Img,
-            *winner1_Img, *winner2_Img, *msg_Img, *draw_Img;
+            *winner1_Img, *winner2_Img, *msg_Img, *draw_Img, *x_Img;
 
 SDL_Texture *Img_ar[70];
 
@@ -61,17 +61,28 @@ int SDL_select_mode(){
     SDL_Delay(300);
     Uint32 buttons;
     int x, y, xx, yy;
+    SDL_Event e;
     bool stop = false;
     while (!stop){
-        SDL_PumpEvents();
-        buttons = SDL_GetMouseState(&x, &y);
-        //cout << "mouse: " << x <<  " " << y << endl;
-        if ((buttons & SDL_BUTTON_LMASK) != 0){
-            stop = true;
-            break;
+        while (SDL_PollEvent(&e) != 0){
+            SDL_PumpEvents();
+            if( e.type == SDL_QUIT )
+					{
+						stop = true;
+						close();
+					}
+            buttons = SDL_GetMouseState(&x, &y);
+            // cout << "mouse: " << x <<  " " << y << endl;
+            if ((buttons & SDL_BUTTON_LMASK) != 0){
+                if (x >= 973 && y == 0){
+                    close();
+
+                }
+                stop = true;
+                break;
+            }
+
         }
-
-
 
 
     }
@@ -95,6 +106,7 @@ void SDL_show_menu(){
 }
 
 void SDL_show_end(int player){
+    renderTexture(menu_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     SDL_RenderClear(renderer);
     if (player == 1){
         renderTexture(winner1_Img, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -107,7 +119,8 @@ void SDL_show_end(int player){
     }
 
     SDL_RenderPresent(renderer);
-    SDL_Delay(3000);
+
+    //close();
     //waitUntilKeyPressed();
 }
 
@@ -163,6 +176,7 @@ void load_SDL_and_Images(){
     winner2_Img = loadTexture("Image/player2.png", renderer);
     msg_Img = loadTexture("Image/msg.png", renderer);
     draw_Img = loadTexture("Image/draw.png", renderer);
+
 
 }
 
@@ -327,7 +341,7 @@ void SDL_draw_quan(int turn, int quan){
         }
         else {
             x = 770;
-            y = 55;
+            y = 95;
         }
         renderTexture(quan0_Img, renderer, x, y, 35, 35);
     }
@@ -533,5 +547,17 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
     //Đưa toàn bộ ảnh trong texture vào hình chữ nhật đích
     //(ảnh sẽ co dãn cho khớp với kích cỡ mới)
 	SDL_RenderCopy(ren, tex, NULL, &dst);
+}
+
+void close()
+{
+	//Deallocate surface
+
+	//Destroy window
+	SDL_DestroyWindow( window );
+	window = NULL;
+
+	//Quit SDL subsystems
+	SDL_Quit();
 }
 //**************************************************************

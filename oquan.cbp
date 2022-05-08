@@ -39,7 +39,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="mainv1.cpp" />
+		<Unit filename="main.cpp" />
 		<Unit filename="mySDLfunction.cpp" />
 		<Unit filename="mySDLfunction.hpp" />
 		<Unit filename="myfunction.cpp" />
