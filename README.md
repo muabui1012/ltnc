@@ -19,6 +19,6 @@ How to run:
 
   
 How to play:
-	Simply, select a cell and direction. The game will be ended if both two big cell on the left and right are empty
-	Read the Huongdan.docx
+	Simply, select a cell and direction. The game will be ended if both two big cell on the left and right are empty.
+	For more details, read the Huongdan.docx (Vietnamese)
 	
